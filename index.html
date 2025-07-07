@@ -60,24 +60,42 @@
         </div>
     </header>
 
-<!-- Video Section -->
 <section class="py-12 px-4 md:px-8 max-w-6xl mx-auto">
-    <div class="video-container rounded-xl overflow-hidden mb-8 shadow-lg aspect-w-16 aspect-h-9">
-        <iframe 
-            src="https://www.youtube.com/embed/auRSAYNTir0?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&loop=1&playlist=auRSAYNTir0&fs=0&disablekb=1" 
-            frameborder="0" 
-            allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen 
-            class="w-full h-full rounded-xl"
-            referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
+  <div class="video-wrapper relative rounded-xl overflow-hidden mb-8 shadow-lg aspect-w-16 aspect-h-9">
+    <div id="video-overlay" class="absolute inset-0 bg-black/70 flex items-center justify-center cursor-pointer z-10">
+      <button onclick="playVideo()" class="bg-white text-black font-bold py-3 px-6 rounded-full text-lg shadow-lg">
+        ▶ Assistir com som
+      </button>
     </div>
-    <div class="text-center">
-        <a href="#offer" class="btn-primary text-white font-bold py-4 px-8 rounded-full text-lg inline-block">
-            QUERO COMEÇAR AGORA! <i class="fas fa-arrow-right ml-2"></i>
-        </a>
-    </div>
+    <iframe 
+      id="youtube-video"
+      src="https://www.youtube.com/embed/auRSAYNTir0?enablejsapi=1&rel=0&controls=1&modestbranding=1" 
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      class="w-full h-full rounded-xl"
+    ></iframe>
+  </div>
 </section>
+
+<script>
+  function playVideo() {
+    document.getElementById('video-overlay').style.display = 'none';
+    const iframe = document.getElementById('youtube-video');
+    const player = new YT.Player(iframe, {
+      events: {
+        'onReady': function (event) {
+          event.target.playVideo();
+        }
+      }
+    });
+  }
+
+  // Carrega a API do YouTube
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.body.appendChild(tag);
+</script>
 
 
     <!-- Who Is This For Section -->
