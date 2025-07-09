@@ -6,6 +6,14 @@
     <title>Método Mulher Fina Angola - Emagreça Naturalmente</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    #progressBar {
+        transition: width 0.3s ease-in-out;
+    }
+</style>
+
+    
     <style>
         .hero-gradient {
             background: linear-gradient(135deg, #006400 0%, #FF7F00 100%);
@@ -49,6 +57,41 @@
     </style>
 </head>
 
+<script>
+    var player;
+    var progressInterval;
+
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('customPlayer', {
+            events: {
+                'onStateChange': function (event) {
+                    if (event.data === YT.PlayerState.PLAYING) {
+                        updateProgress();
+                        progressInterval = setInterval(updateProgress, 500);
+                    }
+                    if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                        clearInterval(progressInterval);
+                    }
+                }
+            }
+        });
+    }
+
+    function updateProgress() {
+        const duration = player.getDuration();
+        const current = player.getCurrentTime();
+        const percent = (current / duration) * 100;
+        document.getElementById('progressBar').style.width = percent + "%";
+    }
+
+    // Carregar API do YouTube
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+</script>
+
+
+    
 <body class="font-sans bg-gray-50 text-gray-800">
     <!-- Header Section -->
     <header class="hero-gradient text-white py-12 px-4 md:px-8 text-center">
@@ -62,15 +105,29 @@
     </header>
 
 <!-- Video Section -->
-    <section class="py-12 px-4 md:px-8 max-w-6xl mx-auto">
-        <div class="video-container rounded-xl overflow-hidden mb-8">
-            <!-- Placeholder for video - replace with actual embed code -->
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/SNqHQJ3sQiM?si=FNyESs57vT4WKGor" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <div class="text-center">
-            <a href="#offer" class="btn-primary text-white font-bold py-4 px-8 rounded-full text-lg inline-block">QUERO COMEÇAR AGORA! <i class="fas fa-arrow-right ml-2"></i></a>
-        </div> 
-    </section>
+<section class="py-12 px-4 md:px-8 max-w-6xl mx-auto">
+    <div class="video-container relative rounded-xl overflow-hidden mb-8 shadow-lg">
+        <!-- Vídeo YouTube sem controles e com API ativada -->
+        <iframe 
+            id="customPlayer"
+            src="https://www.youtube.com/embed/SNqHQJ3sQiM?enablejsapi=1&controls=0&modestbranding=1&rel=0&disablekb=1&showinfo=0" 
+            frameborder="0" 
+            allow="encrypted-media; picture-in-picture" 
+            allowfullscreen
+            class="absolute top-0 left-0 w-full h-full rounded-xl z-10">
+        </iframe>
+
+        <!-- Barra de progresso amarela -->
+        <div class="absolute bottom-0 left-0 h-2 bg-yellow-400 transition-all" id="progressBar" style="width: 0%; z-index: 30;"></div>
+    </div>
+
+    <div class="text-center">
+        <a href="#offer" class="btn-primary text-white font-bold py-4 px-8 rounded-full text-lg inline-block">
+            QUERO COMEÇAR AGORA! <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+    </div>
+</section>
+
 
 
 
